@@ -1,0 +1,21 @@
+# Core Python packages
+numpy
+pandas
+scikit-learn
+matplotlib
+
+# NLP et modèles pré-entraînés
+transformers
+sentencepiece  # nécessaire pour certains modèles comme T5 ou BART
+torch         
+
+
+# Traitement de documents
+PyMuPDF         # Pour extraire le texte des PDF (aussi appelé fitz)
+nltk            # Utilitaire NLP de base
+
+# Interface utilisateur
+streamlit       # Ou gradio si tu préfères
+
+# Autres
+tqdm
