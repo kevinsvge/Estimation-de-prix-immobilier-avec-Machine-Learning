@@ -1,3 +1,4 @@
+# 📦 Imports
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
@@ -13,19 +14,23 @@ from math import sqrt
 
 
 def build_preprocessing_pipeline(X):
+    # Séparation des colonnes numériques et catégorielles
     num_cols = X.select_dtypes(include=["int64", "float64"]).columns
     cat_cols = X.select_dtypes(include=["object", "category"]).columns
 
+    # Pipeline pour les colonnes numériques : imputation + standardisation
     num_pipeline = Pipeline([
         ("imputer", SimpleImputer(strategy="median")),
         ("scaler", StandardScaler())
     ])
 
+    # Pipeline pour les colonnes catégorielles : imputation + encodage
     cat_pipeline = Pipeline([
         ("imputer", SimpleImputer(strategy="constant", fill_value="Missing")),
         ("encoder", OneHotEncoder(handle_unknown="ignore"))
     ])
 
+    # Combinaison des deux pipelines dans un ColumnTransformer
     preprocessor = ColumnTransformer([
         ("num", num_pipeline, num_cols),
         ("cat", cat_pipeline, cat_cols)
@@ -34,21 +39,33 @@ def build_preprocessing_pipeline(X):
     return preprocessor
 
 
+
 def optimize_random_forest(X_train, y_train, X_test, y_test):
+    # Construction du pipeline de prétraitement
     preprocessor = build_preprocessing_pipeline(X_train)
 
+    # Pipeline complet : prétraitement + modèle Random Forest
     pipeline = Pipeline([
         ("preprocessing", preprocessor),
         ("model", RandomForestRegressor(random_state=42))
     ])
 
+    # Grille de recherche des hyperparamètres
     param_grid = {
-        "model__n_estimators": [100, 200],
-        "model__max_depth": [10, 20, None],
-        "model__min_samples_split": [2, 5, 10]
+        "model__n_estimators": [100, 200],           # nombre d'arbres
+        "model__max_depth": [10, 20, None],          # profondeur maximale
+        "model__min_samples_split": [2, 5, 10]       # taille min. pour un split
     }
 
-    grid_search = GridSearchCV(pipeline, param_grid, cv=3, scoring="neg_mean_absolute_error", n_jobs=-1, verbose=2)
+    # Recherche par validation croisée
+    grid_search = GridSearchCV(
+        pipeline,
+        param_grid,
+        cv=3,                              # 3-fold cross-validation
+        scoring="neg_mean_absolute_error", # on cherche à minimiser MAE
+        n_jobs=-1,                         # utilise tous les cœurs CPU
+        verbose=2
+    )
     grid_search.fit(X_train, y_train)
 
     print("\n✅ Meilleurs hyperparamètres :", grid_search.best_params_)
