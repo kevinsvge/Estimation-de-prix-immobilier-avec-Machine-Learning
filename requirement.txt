@@ -1,26 +1,16 @@
-# Core Python packages
-pandas
-numpy
+# 🧠 Machine Learning
 scikit-learn
 xgboost
-matplotlib
-seaborn
-streamlit
 joblib
 
+# 📊 Analyse de données
+pandas
+numpy
+matplotlib
+seaborn
 
-# NLP et modèles pré-entraînés
-transformers
-sentencepiece  # nécessaire pour certains modèles comme T5 ou BART
-torch         
+# 🖥️ Interface Web
+streamlit
 
-
-# Traitement de documents
-PyMuPDF         # Pour extraire le texte des PDF (aussi appelé fitz)
-nltk            # Utilitaire NLP de base
-
-# Interface utilisateur
-streamlit       # Ou gradio si tu préfères
-
-# Autres
+# (optionnel) Barre de progression
 tqdm
