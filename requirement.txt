@@ -1,8 +1,13 @@
 # Core Python packages
-numpy
 pandas
+numpy
 scikit-learn
+xgboost
 matplotlib
+seaborn
+streamlit
+joblib
+
 
 # NLP et modèles pré-entraînés
 transformers
